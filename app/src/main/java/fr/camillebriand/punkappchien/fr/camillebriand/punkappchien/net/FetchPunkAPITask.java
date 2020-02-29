@@ -2,8 +2,14 @@ package fr.camillebriand.punkappchien.fr.camillebriand.punkappchien.net;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.util.Log;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class FetchPunkAPITask extends AsyncTask {
 	private static final String BASE_API_PATH = "https://api.punkapi.com/v2/beers";
@@ -22,6 +28,23 @@ public class FetchPunkAPITask extends AsyncTask {
 	
 	@Override
 	protected Object doInBackground(Object[] objects) {
+		URL apiUrl;
+		
+		try {
+			// Setup API connection
+			apiUrl = new URL(RANDOM_BEER_API_PATH);
+			HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+			
+			try {
+				// Get JSON response from API
+				InputStream is = new BufferedInputStream(connection.getInputStream());
+			} finally {
+				connection.disconnect();
+			}
+		} catch (IOException e) {
+			Log.e("net", "IOException", e);
+		}
+		
 		return null;
 	}
 }
