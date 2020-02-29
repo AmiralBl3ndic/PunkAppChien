@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import fr.camillebriand.punkappchien.net.FetchPunkAPITask;
+
 public class MainActivity extends AppCompatActivity {
 	
 	private BeerDialog beerDialog = new BeerDialog();
@@ -14,6 +16,12 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_main);
 		
 		showBeerDialog();
+		
+		new FetchPunkAPITask(this).execute();
+	}
+	
+	public BeerDialog getBeerDialog() {
+		return this.beerDialog;
 	}
 	
 	/**
