@@ -35,14 +35,23 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
 	protected JSONObject doInBackground(Void... voids) {
 		URL apiUrl;
 		
+		JSONObject jsonApiResponse = null;
+		
 		try {
 			// Setup API connection
 			apiUrl = new URL(RANDOM_BEER_API_PATH);
 			HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
 			
 			try {
-				// Get JSON response from API
+				// Get JSON response from API as InputStream
 				InputStream is = new BufferedInputStream(connection.getInputStream());
+				
+				// Convert InputStream response to String (easier to handle)
+				String apiResponseAsString = StreamsUtil.readStream(is);
+				
+				jsonApiResponse = new JSONObject(apiResponseAsString);
+			} catch (JSONException e) {
+				Log.e("net", "JSONException", e);
 			} finally {
 				connection.disconnect();
 			}
@@ -50,6 +59,6 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
 			Log.e("net", "IOException", e);
 		}
 		
-		return null;
+		return jsonApiResponse;
 	}
 }
