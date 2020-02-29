@@ -1,3 +1,5 @@
 <resources>
 	<string name="app_name">PunkAppChien</string>
+	<string name="beer_image">Beer image</string>
+	<string name="beer_dialog_dismiss_button_text">Dismiss</string>
 </resources>
