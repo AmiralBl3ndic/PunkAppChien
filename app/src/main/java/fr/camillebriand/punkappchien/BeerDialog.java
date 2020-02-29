@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class BeerDialog extends DialogFragment {
+public class BeerDialog extends DialogFragment implements View.OnClickListener {
 	
 	private TextView beerName;
 	private ImageView beerImage;
@@ -27,6 +27,8 @@ public class BeerDialog extends DialogFragment {
 		this.beerName = dialogView.findViewById(R.id.beer_dialog__name);
 		this.beerImage = dialogView.findViewById(R.id.beer_dialog__image);
 		this.beerDescription = dialogView.findViewById(R.id.beer_dialog__description);
+		
+		dialogView.findViewById(R.id.beer_dialog_dismiss_button).setOnClickListener(this);
 		
 		builder.setView(dialogView);
 		return builder.create();
@@ -48,5 +50,10 @@ public class BeerDialog extends DialogFragment {
 		if (this.beerDescription == null) return;
 		
 		this.beerDescription.setText(beerDescription);
+	}
+	
+	@Override
+	public void onClick(View v) {
+		this.dismiss();
 	}
 }
