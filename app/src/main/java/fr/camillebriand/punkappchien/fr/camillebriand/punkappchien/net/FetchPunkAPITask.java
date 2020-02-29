@@ -61,4 +61,9 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
 		
 		return jsonApiResponse;
 	}
+	
+	@Override
+	protected void onPostExecute(JSONObject apiResponse) {
+		throw new UnsupportedOperationException();
+	}
 }
