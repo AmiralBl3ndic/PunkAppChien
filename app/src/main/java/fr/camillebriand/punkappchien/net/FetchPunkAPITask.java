@@ -1,9 +1,12 @@
 package fr.camillebriand.punkappchien.net;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,6 +17,8 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import fr.camillebriand.punkappchien.BeerDialog;
+import fr.camillebriand.punkappchien.MainActivity;
 import fr.camillebriand.punkappchien.util.StreamsUtil;
 
 public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
@@ -35,6 +40,8 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
 	protected JSONObject doInBackground(Void... voids) {
 		URL apiUrl;
 		
+		InputStream apiInputStream = null;
+		InputStream imageInputStream = null;
 		JSONObject jsonApiResponse = null;
 		
 		try {
@@ -44,16 +51,36 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
 			
 			try {
 				// Get JSON response from API as InputStream
-				InputStream is = new BufferedInputStream(connection.getInputStream());
+				apiInputStream = new BufferedInputStream(connection.getInputStream());
 				
 				// Convert InputStream response to String (easier to handle)
-				String apiResponseAsString = StreamsUtil.readStream(is);
+				String apiResponseAsString = StreamsUtil.readStream(apiInputStream);
 				
-				jsonApiResponse = new JSONObject(apiResponseAsString);
+				JSONArray apiResponse = new JSONArray(apiResponseAsString);
+				
+				if (apiResponse.length() == 0) {
+					throw new RuntimeException("No data returned from API");
+				}
+				
+				jsonApiResponse = apiResponse.getJSONObject(0);
+				imageInputStream = new URL(jsonApiResponse.getString("image_url")).openStream();
+				
+				jsonApiResponse.put("image", BitmapFactory.decodeStream(imageInputStream));
 			} catch (JSONException e) {
 				Log.e("net", "JSONException", e);
+			} catch (RuntimeException e) {
+				Log.e("net", "RuntimeException", e);
 			} finally {
+				if (apiInputStream != null) {
+					apiInputStream.close();
+				}
+				
+				if (imageInputStream != null) {
+					imageInputStream.close();
+				}
+				
 				connection.disconnect();
+				
 			}
 		} catch (IOException e) {
 			Log.e("net", "IOException", e);
@@ -64,6 +91,26 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
 	
 	@Override
 	protected void onPostExecute(JSONObject apiResponse) {
-		throw new UnsupportedOperationException();
+		if (this.activityRef == null) {
+			Log.e("net", "Cannot process null weak reference to activity");
+			return;
+		}
+		
+		MainActivity activity = (MainActivity) this.activityRef.get();
+		
+		if (activity == null) {
+			Log.e("net", "Cannot process null activity");
+			return;
+		}
+		
+		BeerDialog beerDialog = activity.getBeerDialog();
+		
+		try {
+			beerDialog.setBeerName(apiResponse.getString("name"));
+			beerDialog.setBeerDescription(apiResponse.getString("description"));
+			beerDialog.setBeerImage((Bitmap) apiResponse.get("image"));
+		} catch (JSONException e) {
+			Log.e("net", "JSONException", e);
+		}
 	}
 }
