@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 	
+	private BeerDialog beerDialog = new BeerDialog();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -18,6 +20,6 @@ public class MainActivity extends AppCompatActivity {
 	 * Shows the beer dialog
 	 */
 	private void showBeerDialog() {
-		new BeerDialog().show(getFragmentManager(), "dialog");
+		this.beerDialog.show(getFragmentManager(), "dialog");
 	}
 }
