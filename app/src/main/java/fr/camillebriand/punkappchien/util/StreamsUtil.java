@@ -1,4 +1,4 @@
-package fr.camillebriand.punkappchien.fr.camillebriand.punkappchien.util;
+package fr.camillebriand.punkappchien.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

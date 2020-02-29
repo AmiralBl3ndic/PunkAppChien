@@ -1,4 +1,4 @@
-package fr.camillebriand.punkappchien.fr.camillebriand.punkappchien.net;
+package fr.camillebriand.punkappchien.net;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -14,7 +14,7 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import fr.camillebriand.punkappchien.fr.camillebriand.punkappchien.util.StreamsUtil;
+import fr.camillebriand.punkappchien.util.StreamsUtil;
 
 public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
 	private static final String BASE_API_PATH = "https://api.punkapi.com/v2/beers";
