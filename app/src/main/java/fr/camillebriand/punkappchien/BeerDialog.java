@@ -3,6 +3,7 @@ package fr.camillebriand.punkappchien;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import android.app.DialogFragment;
@@ -48,7 +49,16 @@ public class BeerDialog extends DialogFragment implements View.OnClickListener {
 		if (this.beerImage == null) return;
 		
 		((ViewGroup) this.spinner.getParent()).removeView(this.spinner);
+		
 		this.beerImage.setImageBitmap(bmp);
+	}
+	
+	public void setBeerImage(Drawable drawable) {
+		if (this.beerImage == null) return;
+		
+		((ViewGroup) this.spinner.getParent()).removeView(this.spinner);
+		
+		this.beerImage.setImageDrawable(drawable);
 	}
 	
 	public void setBeerDescription(String beerDescription) {

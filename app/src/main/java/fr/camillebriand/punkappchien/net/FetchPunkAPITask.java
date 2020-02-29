@@ -19,6 +19,7 @@ import java.net.URL;
 
 import fr.camillebriand.punkappchien.BeerDialog;
 import fr.camillebriand.punkappchien.MainActivity;
+import fr.camillebriand.punkappchien.R;
 import fr.camillebriand.punkappchien.util.StreamsUtil;
 
 public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
@@ -108,7 +109,12 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
 		try {
 			beerDialog.setBeerName(apiResponse.getString("name"));
 			beerDialog.setBeerDescription(apiResponse.getString("description"));
-			beerDialog.setBeerImage((Bitmap) apiResponse.get("image"));
+			
+			try {
+				beerDialog.setBeerImage((Bitmap) apiResponse.get("image"));
+			} catch (JSONException e) {
+				beerDialog.setBeerImage(activity.getDrawable(R.drawable.logo));
+			}
 		} catch (JSONException e) {
 			Log.e("net", "JSONException", e);
 		}
