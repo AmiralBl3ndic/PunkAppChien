@@ -16,6 +16,10 @@ public class MainActivity extends AppCompatActivity {
 		showBeerDialog();
 	}
 	
+	public BeerDialog getBeerDialog() {
+		return this.beerDialog;
+	}
+	
 	/**
 	 * Shows the beer dialog
 	 */
