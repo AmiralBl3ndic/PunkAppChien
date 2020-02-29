@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +14,9 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class FetchPunkAPITask extends AsyncTask {
+import fr.camillebriand.punkappchien.fr.camillebriand.punkappchien.util.StreamsUtil;
+
+public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
 	private static final String BASE_API_PATH = "https://api.punkapi.com/v2/beers";
 	
 	private static final String RANDOM_BEER_API_PATH = BASE_API_PATH + "/random";
@@ -27,7 +32,7 @@ public class FetchPunkAPITask extends AsyncTask {
 	}
 	
 	@Override
-	protected Object doInBackground(Object[] objects) {
+	protected JSONObject doInBackground(Void... voids) {
 		URL apiUrl;
 		
 		try {
