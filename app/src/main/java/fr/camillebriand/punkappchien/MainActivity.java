@@ -14,9 +14,13 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		
-		FragmentManager fm = getFragmentManager();
-		DialogFragment beerDialog = new BeerDialog();
-		beerDialog.show(fm, "dialog");
+		showBeerDialog();
+	}
+	
+	/**
+	 * Shows the beer dialog
+	 */
+	private void showBeerDialog() {
+		new BeerDialog().show(getFragmentManager(), "dialog");
 	}
 }
