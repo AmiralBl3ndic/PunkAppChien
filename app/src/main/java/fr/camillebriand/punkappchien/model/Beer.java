@@ -5,10 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import fr.camillebriand.punkappchien.R;
+import lombok.Data;
 
 /**
  * Represents the interesting beer data returned by the Punk API
  */
+@Data
 public class Beer {
 	private String name;
 
