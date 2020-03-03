@@ -19,10 +19,10 @@ import java.net.URL;
 
 import fr.camillebriand.punkappchien.BeerDialog;
 import fr.camillebriand.punkappchien.MainActivity;
-import fr.camillebriand.punkappchien.R;
+import fr.camillebriand.punkappchien.model.Beer;
 import fr.camillebriand.punkappchien.util.StreamsUtil;
 
-public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
+public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 	private static final String BASE_API_PATH = "https://api.punkapi.com/v2/beers";
 	
 	private static final String RANDOM_BEER_API_PATH = BASE_API_PATH + "/random";
@@ -38,12 +38,14 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
 	}
 	
 	@Override
-	protected JSONObject doInBackground(Void... voids) {
+	protected Beer doInBackground(Void... voids) {
 		URL apiUrl;
 		
 		InputStream apiInputStream = null;
 		InputStream imageInputStream = null;
-		JSONObject jsonApiResponse = null;
+		JSONObject jsonApiResponse;
+
+		Beer beer = null;
 		
 		try {
 			// Setup API connection
@@ -65,8 +67,19 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
 				
 				jsonApiResponse = apiResponse.getJSONObject(0);
 				imageInputStream = new URL(jsonApiResponse.getString("image_url")).openStream();
-				
+
 				jsonApiResponse.put("image", BitmapFactory.decodeStream(imageInputStream));
+
+				try {
+					beer = new Beer(jsonApiResponse, this.activityRef.get().getApplicationContext());
+				} catch (NullPointerException e) {  // Can only be thrown if activityRef.get() is null
+					beer = new Beer(
+							jsonApiResponse.getString("name"),
+							jsonApiResponse.getString("description")
+					);
+					Bitmap bmp = BitmapFactory.decodeStream(imageInputStream);
+					beer.setImage(bmp);
+				}
 			} catch (JSONException e) {
 				Log.e("net", "JSONException", e);
 			} catch (RuntimeException e) {
@@ -87,11 +100,11 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
 			Log.e("net", "IOException", e);
 		}
 		
-		return jsonApiResponse;
+		return beer;
 	}
 	
 	@Override
-	protected void onPostExecute(JSONObject apiResponse) {
+	protected void onPostExecute(Beer beer) {
 		if (this.activityRef == null) {
 			Log.e("net", "Cannot process null weak reference to activity");
 			return;
@@ -105,18 +118,14 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, JSONObject> {
 		}
 		
 		BeerDialog beerDialog = activity.getBeerDialog();
-		
-		try {
-			beerDialog.setBeerName(apiResponse.getString("name"));
-			beerDialog.setBeerDescription(apiResponse.getString("description"));
-			
-			try {
-				beerDialog.setBeerImage((Bitmap) apiResponse.get("image"));
-			} catch (JSONException e) {
-				beerDialog.setBeerImage(activity.getDrawable(R.drawable.logo));
-			}
-		} catch (JSONException e) {
-			Log.e("net", "JSONException", e);
+
+		if (beer == null) {
+			beerDialog.setBeerDescription("An error occurred, please try again");
+			return;
 		}
+
+		beerDialog.setBeerName(beer.getName());
+		beerDialog.setBeerDescription(beer.getDescription());
+		beerDialog.setBeerImage(beer.getImage());
 	}
 }
