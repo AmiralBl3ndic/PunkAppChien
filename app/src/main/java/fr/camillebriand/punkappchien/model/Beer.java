@@ -10,6 +10,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.camillebriand.punkappchien.R;
 import lombok.Data;
@@ -22,6 +24,8 @@ public class Beer {
 	private static final String JSON_NAME_KEY = "name";
 	private static final String JSON_DESCRIPTION_KEY = "description";
 	private static final String JSON_IMAGE_URL_KEY = "image_url";
+
+	private static final ArrayList<Beer> collection = new ArrayList<>();
 
 	private String name;
 
@@ -86,5 +90,21 @@ public class Beer {
 
 	private static Bitmap getDefaultImage(Context context) {
 		return BitmapFactory.decodeResource(context.getResources(), R.drawable.logo);
+	}
+
+	/**
+	 * Get the collection of beers
+	 * @return A {@link List<Beer>} of beers
+	 */
+	public static List<Beer> getBeersCollection() {
+		return collection;
+	}
+
+	/**
+	 * Add a beer to the collection of beers
+	 * @param beer
+	 */
+	public static void addBeerToCollection(Beer beer) {
+		collection.add(beer);
 	}
 }
