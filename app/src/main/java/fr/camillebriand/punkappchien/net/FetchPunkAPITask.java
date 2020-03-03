@@ -99,7 +99,7 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 		} catch (IOException e) {
 			Log.e("net", "IOException", e);
 		}
-		
+
 		return beer;
 	}
 	
@@ -123,6 +123,8 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 			beerDialog.setBeerDescription("An error occurred, please try again");
 			return;
 		}
+
+		Beer.addBeerToCollection(beer);
 
 		beerDialog.setBeerName(beer.getName());
 		beerDialog.setBeerDescription(beer.getDescription());
