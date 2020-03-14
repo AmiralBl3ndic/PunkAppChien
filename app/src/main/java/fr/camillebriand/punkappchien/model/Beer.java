@@ -25,7 +25,7 @@ public class Beer {
 	private static final String JSON_DESCRIPTION_KEY = "description";
 	private static final String JSON_IMAGE_URL_KEY = "image_url";
 
-	private static final ArrayList<Beer> collection = new ArrayList<>();
+	private static final ArrayList<Beer> favourites = new ArrayList<>();
 
 	private String name;
 
@@ -97,14 +97,14 @@ public class Beer {
 	 * @return A {@link List<Beer>} of beers
 	 */
 	public static List<Beer> getBeersCollection() {
-		return collection;
+		return favourites;
 	}
 
 	/**
 	 * Add a beer to the collection of beers
 	 * @param beer
 	 */
-	public static void addBeerToCollection(Beer beer) {
-		collection.add(beer);
+	public static void addBeerToFavourites(Beer beer) {
+		favourites.add(beer);
 	}
 }
