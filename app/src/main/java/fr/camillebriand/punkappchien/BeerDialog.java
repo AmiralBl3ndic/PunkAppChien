@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import fr.camillebriand.punkappchien.model.Beer;
 
-public class BeerDialog extends DialogFragment implements View.OnClickListener {
+public class BeerDialog extends DialogFragment {
 	
 	Context context;
 	Vibrator vibrator;
@@ -46,7 +46,13 @@ public class BeerDialog extends DialogFragment implements View.OnClickListener {
 		
 		this.vibrator = this.context == null ? null : (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
 		
-		dialogView.findViewById(R.id.beer_dialog_dismiss_button).setOnClickListener(this);
+		// Handle clicks on the dismiss button
+		dialogView.findViewById(R.id.beer_dialog_dismiss_button).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dismiss();
+			}
+		});
 		
 		builder.setView(dialogView);
 		return builder.create();
@@ -83,10 +89,5 @@ public class BeerDialog extends DialogFragment implements View.OnClickListener {
 		if (this.beerDescription == null) return;
 		
 		this.beerDescription.setText(beerDescription);
-	}
-	
-	@Override
-	public void onClick(View v) {
-		this.dismiss();
 	}
 }
