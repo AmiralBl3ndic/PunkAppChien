@@ -3,4 +3,5 @@
 	<string name="beer_image">Beer image</string>
 	<string name="beer_dialog_dismiss_button_text">Dismiss</string>
 	<string name="main_activity_button_text">Get another beer</string>
+	<string name="add_to_favourites">Add to favourites</string>
 </resources>
