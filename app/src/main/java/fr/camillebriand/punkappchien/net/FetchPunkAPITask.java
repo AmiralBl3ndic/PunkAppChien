@@ -125,9 +125,6 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 		}
 
 		Beer.addBeerToCollection(beer);
-
-		beerDialog.setBeerName(beer.getName());
-		beerDialog.setBeerDescription(beer.getDescription());
-		beerDialog.setBeerImage(beer.getImage());
+		beerDialog.setBeer(beer);
 	}
 }
