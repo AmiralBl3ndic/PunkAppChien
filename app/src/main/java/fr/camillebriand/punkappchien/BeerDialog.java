@@ -60,6 +60,10 @@ public class BeerDialog extends DialogFragment implements View.OnClickListener {
 			this.setBeerName(beer.getName());
 			this.setBeerImage(beer.getImage());
 			this.setBeerDescription(beer.getDescription());
+			
+			if (this.vibrator != null) {
+				this.vibrator.vibrate(200);
+			}
 		}
 	}
 	
