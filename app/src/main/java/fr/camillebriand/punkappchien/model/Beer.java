@@ -15,10 +15,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 import fr.camillebriand.punkappchien.R;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Represents the interesting beer data returned by the Punk API
@@ -26,7 +28,7 @@ import lombok.Data;
 @Data
 @Entity(tableName = "Beers", primaryKeys = {"name", "description"})
 public class Beer {
-	@Ignore
+	@Ignore @Getter @Setter(AccessLevel.NONE)
 	private static final ArrayList<Beer> favourites = new ArrayList<>();
 	
 	@ColumnInfo(name = "name", typeAffinity = ColumnInfo.TEXT)
@@ -41,6 +43,7 @@ public class Beer {
 	@Ignore
 	private Bitmap image;
 
+	///region Constructors
 	/**
 	 * Create a beer instance with no image
 	 * @param name Name of the beer
@@ -51,7 +54,7 @@ public class Beer {
 		this.description = description;
 	}
 
-	public Beer(String name, String description, Bitmap image) {
+	private Beer(String name, String description, Bitmap image) {
 		this(name, description);
 		this.image = image;
 	}
@@ -95,18 +98,10 @@ public class Beer {
 			}
 		}
 	}
-
+	///endregion
 
 	private static Bitmap getDefaultImage(Context context) {
 		return BitmapFactory.decodeResource(context.getResources(), R.drawable.logo);
-	}
-
-	/**
-	 * Get the collection of beers
-	 * @return A {@link List<Beer>} of beers
-	 */
-	public static List<Beer> getBeersCollection() {
-		return favourites;
 	}
 
 	/**
