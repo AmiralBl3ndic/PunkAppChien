@@ -26,19 +26,28 @@ import lombok.Setter;
  * Represents the interesting beer data returned by the Punk API
  */
 @Data
-@Entity(tableName = "Beers", primaryKeys = {"name", "description"})
+@Entity(tableName = "Beers", primaryKeys = {"name", "tagline"})
 public class Beer {
 	@Ignore @Getter @Setter(AccessLevel.NONE)
 	private static final ArrayList<Beer> favourites = new ArrayList<>();
 	
 	@ColumnInfo(name = "name", typeAffinity = ColumnInfo.TEXT)
 	private String name;
+	
+	@ColumnInfo(name = "tagline", typeAffinity = ColumnInfo.TEXT)
+	private String tagline;
 
 	@ColumnInfo(name = "description", typeAffinity = ColumnInfo.TEXT)
 	private String description;
 	
 	@ColumnInfo(name = "image_url", typeAffinity = ColumnInfo.TEXT)
 	private String imageUrl;
+	
+	@ColumnInfo(name = "ibu", typeAffinity = ColumnInfo.INTEGER)
+	private int ibu;
+	
+	@ColumnInfo(name = "abv", typeAffinity = ColumnInfo.REAL)
+	private double abv;
 	
 	@Ignore
 	private Bitmap image;
@@ -58,15 +67,7 @@ public class Beer {
 		this(name, description);
 		this.image = image;
 	}
-
-	public Beer(Context context, String name, String description) {
-		this(
-				name,
-				description,
-				getDefaultImage(context)
-		);
-	}
-
+	
 	/**
 	 * Instantiate a beer from a JSON object as returned by the Punk API
 	 * @param jsonBeer JSON Object representing a beer. Must have {@code name}, {@code description} and {@code image_url} fields
@@ -81,6 +82,9 @@ public class Beer {
 			this.name = jsonBeer.getString("name");
 			this.description = jsonBeer.getString("description");
 			this.imageUrl = jsonBeer.getString("image_url");
+			this.tagline = jsonBeer.getString("tagline");
+			this.abv = jsonBeer.getDouble("abv");
+			this.ibu = jsonBeer.getInt("ibu");
 		} catch (JSONException e) {
 			Log.e("punkappchien", "JSONException", e);
 		}
