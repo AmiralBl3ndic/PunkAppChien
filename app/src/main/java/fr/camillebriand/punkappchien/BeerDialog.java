@@ -39,10 +39,10 @@ public class BeerDialog extends DialogFragment implements View.OnClickListener {
 		
 		View dialogView = inflater.inflate(R.layout.beer_dialog, null);
 		
-		this.beerName = (TextView) dialogView.findViewById(R.id.beer_dialog__name);
-		this.beerImage = (ImageView) dialogView.findViewById(R.id.beer_dialog__image);
-		this.beerDescription = (TextView) dialogView.findViewById(R.id.beer_dialog__description);
-		this.spinner = (ProgressBar) dialogView.findViewById(R.id.beer_dialog__spinner);
+		this.beerName = dialogView.findViewById(R.id.beer_dialog__name);
+		this.beerImage = dialogView.findViewById(R.id.beer_dialog__image);
+		this.beerDescription = dialogView.findViewById(R.id.beer_dialog__description);
+		this.spinner = dialogView.findViewById(R.id.beer_dialog__spinner);
 		
 		this.vibrator = this.context == null ? null : (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
 		
