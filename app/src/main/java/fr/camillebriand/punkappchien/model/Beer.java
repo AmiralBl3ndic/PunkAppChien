@@ -51,9 +51,6 @@ public class Beer implements Serializable {
 	
 	@ColumnInfo(name = "grade", typeAffinity = ColumnInfo.INTEGER)
 	private int grade = 0;  // 0/10 by default
-	
-	@Ignore
-	private Bitmap image;
 
 	///region Constructors
 	public Beer() {}
@@ -74,31 +71,28 @@ public class Beer implements Serializable {
 			this.tagline = jsonBeer.getString("tagline");
 			this.abv = jsonBeer.getDouble("abv");
 			this.ibu = jsonBeer.getInt("ibu");
-			
-			if (this.imageUrl.equals("null")) {
-				this.image = null;
-			} else {
-				loadImageFromUrl();
-			}
 		} catch (JSONException e) {
 			Log.e("punkappchien", "JSONException", e);
 		}
 	}
 	///endregion
 	
-	private void loadImageFromUrl() {
+	public Bitmap getImage() {
 		// Do not use network if not necessary
-		if (imageUrl.equals("null")) return;
+		if (imageUrl.equals("null")) return null;
 		
 		try {
 			InputStream imageInputSteam = new URL(imageUrl).openStream();
-			image = BitmapFactory.decodeStream(imageInputSteam);
+			Bitmap image = BitmapFactory.decodeStream(imageInputSteam);
 			imageInputSteam.close();
+			return image;
 		} catch (MalformedURLException e) {
 			Log.e("punkappchien", "MalformedURLException", e);
 		} catch (IOException e) {
 			Log.e("punkappchien", "IOException", e);
 		}
+		
+		return null;
 	}
 	
 
@@ -113,7 +107,7 @@ public class Beer implements Serializable {
 		favourites.add(beer);
 	}
 	
-	///region Getters & Setters
+	///region Default Getters & Setters
 	@NonNull
 	public String getName() {
 		return name;
@@ -162,10 +156,6 @@ public class Beer implements Serializable {
 	
 	public void setAbv(double abv) {
 		this.abv = abv;
-	}
-	
-	public Bitmap getImage() {
-		return image;
 	}
 	
 	public int getGrade() {
