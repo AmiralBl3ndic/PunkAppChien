@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import fr.camillebriand.punkappchien.model.Beer;
-import fr.camillebriand.punkappchien.net.GetBeerImageForDialog;
+import fr.camillebriand.punkappchien.async.GetBeerImageForDialog;
 import fr.camillebriand.punkappchien.persistence.BeerDatabase;
 
 public class BeerDialog extends DialogFragment {

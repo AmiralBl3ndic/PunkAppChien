@@ -1,4 +1,4 @@
-package fr.camillebriand.punkappchien.net;
+package fr.camillebriand.punkappchien.async;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
