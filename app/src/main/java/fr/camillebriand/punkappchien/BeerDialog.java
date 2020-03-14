@@ -23,6 +23,8 @@ public class BeerDialog extends DialogFragment {
 	Context context;
 	Vibrator vibrator;
 	
+	Beer beer = null;
+	
 	private TextView beerName;
 	private ImageView beerImage;
 	private TextView beerDescription;
@@ -54,12 +56,22 @@ public class BeerDialog extends DialogFragment {
 			}
 		});
 		
+		dialogView.findViewById(R.id.beer_dialog_add_favourite_button).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Beer.addBeerToFavourites(beer);
+				dismiss();
+			}
+		});
+		
 		builder.setView(dialogView);
 		return builder.create();
 	}
 	
 	
 	public void setBeer(Beer beer) {
+		this.beer = beer;
+		
 		if (beer != null) {
 			((ViewGroup) this.spinner.getParent()).removeView(this.spinner);
 			
@@ -73,19 +85,19 @@ public class BeerDialog extends DialogFragment {
 		}
 	}
 	
-	public void setBeerName(String beerName) {
+	private void setBeerName(String beerName) {
 		if (this.beerName == null) return;
 		
 		this.beerName.setText(beerName);
 	}
 	
-	public void setBeerImage(Bitmap bmp) {
+	private void setBeerImage(Bitmap bmp) {
 		if (this.beerImage == null) return;
 		
 		this.beerImage.setImageBitmap(bmp);
 	}
 	
-	public void setBeerDescription(String beerDescription) {
+	private void setBeerDescription(String beerDescription) {
 		if (this.beerDescription == null) return;
 		
 		this.beerDescription.setText(beerDescription);
