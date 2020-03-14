@@ -13,7 +13,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import fr.camillebriand.punkappchien.R;
@@ -70,24 +74,37 @@ public class Beer {
 			this.tagline = jsonBeer.getString("tagline");
 			this.abv = jsonBeer.getDouble("abv");
 			this.ibu = jsonBeer.getInt("ibu");
-		} catch (JSONException e) {
-			Log.e("punkappchien", "JSONException", e);
-		}
-
-		try {
-			this.image = null;
-			this.image = BitmapFactory.decodeStream(new URL(jsonBeer.getString(this.imageUrl)).openStream());
-		} catch (IOException e) {
-			Log.e("punkappchien", "IOException", e);
-		} catch (JSONException e) {
-			Log.e("punkappchien", "JSONException", e);
-		} finally {
-			if (this.image == null) {
+			
+			if (this.imageUrl.equals("null")) {
 				this.image = getDefaultImage(context);
+			} else {
+				loadImageFromUrl();
 			}
+		} catch (JSONException e) {
+			Log.e("punkappchien", "JSONException", e);
 		}
 	}
 	///endregion
+	
+	private void loadImageFromUrl() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// Do not use network if not necessary
+				if (imageUrl.equals("null")) return;
+				
+				try {
+					InputStream imageInputSteam = new URL(imageUrl).openStream();
+					image = BitmapFactory.decodeStream(imageInputSteam);
+					imageInputSteam.close();
+				} catch (MalformedURLException e) {
+					Log.e("punkappchien", "MalformedURLException", e);
+				} catch (IOException e) {
+					Log.e("punkappchien", "IOException", e);
+				}
+			}
+		}).start();
+	}
 
 	private static Bitmap getDefaultImage(Context context) {
 		return BitmapFactory.decodeResource(context.getResources(), R.drawable.logo);
