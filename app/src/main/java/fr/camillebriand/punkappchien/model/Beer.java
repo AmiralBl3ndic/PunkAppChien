@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import lombok.Setter;
  * Represents the interesting beer data returned by the Punk API
  */
 @Entity(tableName = "Beers", primaryKeys = {"name", "tagline"})
-public class Beer {
+public class Beer implements Serializable {
 	@Ignore @Getter @Setter(AccessLevel.NONE)
 	private static final ArrayList<Beer> favourites = new ArrayList<>();
 	
