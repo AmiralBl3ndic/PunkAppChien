@@ -8,7 +8,9 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+import fr.camillebriand.punkappchien.async.GetBeerImageForDetails;
 import fr.camillebriand.punkappchien.model.Beer;
+import lombok.Getter;
 
 public class BeerDetailsActivity extends AppCompatActivity {
 	
@@ -17,6 +19,7 @@ public class BeerDetailsActivity extends AppCompatActivity {
 	private TextView descriptionTextView;
 	private TextView abvTextView;
 	private TextView ibuTextView;
+	@Getter
 	private ImageView beerImageView;
 	
 	@Override
@@ -45,6 +48,7 @@ public class BeerDetailsActivity extends AppCompatActivity {
 		descriptionTextView.setText(beer.getDescription());
 		abvTextView.setText(String.format(Locale.getDefault(), "%.2f", beer.getAbv()));
 		ibuTextView.setText(String.valueOf(beer.getIbu()));
-		beerImageView.setImageBitmap(beer.getImage());
+		
+		new GetBeerImageForDetails(this).execute(beer);
 	}
 }
