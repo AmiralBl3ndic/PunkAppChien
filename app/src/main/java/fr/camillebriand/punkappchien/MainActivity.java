@@ -9,16 +9,19 @@ import fr.camillebriand.punkappchien.net.FetchPunkAPITask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 	
-	private BeerDialog beerDialog = new BeerDialog();
+	private BeerDialog beerDialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		this.beerDialog = new BeerDialog();
+		this.beerDialog.setContext(getApplicationContext());
+		
 		showBeerDialog();
 		
-		findViewById(R.id.main_activity_dialog_button).setOnClickListener(this);
+		this.findViewById(R.id.main_activity_dialog_button).setOnClickListener(this);
 		
 		new FetchPunkAPITask(this).execute();
 	}
