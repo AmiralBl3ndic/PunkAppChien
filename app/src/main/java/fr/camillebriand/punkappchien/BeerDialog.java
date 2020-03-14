@@ -28,10 +28,10 @@ public class BeerDialog extends DialogFragment implements View.OnClickListener {
 		
 		View dialogView = inflater.inflate(R.layout.beer_dialog, null);
 		
-		this.beerName = dialogView.findViewById(R.id.beer_dialog__name);
-		this.beerImage = dialogView.findViewById(R.id.beer_dialog__image);
-		this.beerDescription = dialogView.findViewById(R.id.beer_dialog__description);
-		this.spinner = dialogView.findViewById(R.id.beer_dialog__spinner);
+		this.beerName = (TextView) dialogView.findViewById(R.id.beer_dialog__name);
+		this.beerImage = (ImageView) dialogView.findViewById(R.id.beer_dialog__image);
+		this.beerDescription = (TextView) dialogView.findViewById(R.id.beer_dialog__description);
+		this.spinner = (ProgressBar) dialogView.findViewById(R.id.beer_dialog__spinner);
 		
 		dialogView.findViewById(R.id.beer_dialog_dismiss_button).setOnClickListener(this);
 		
@@ -51,14 +51,6 @@ public class BeerDialog extends DialogFragment implements View.OnClickListener {
 		((ViewGroup) this.spinner.getParent()).removeView(this.spinner);
 		
 		this.beerImage.setImageBitmap(bmp);
-	}
-	
-	public void setBeerImage(Drawable drawable) {
-		if (this.beerImage == null) return;
-		
-		((ViewGroup) this.spinner.getParent()).removeView(this.spinner);
-		
-		this.beerImage.setImageDrawable(drawable);
 	}
 	
 	public void setBeerDescription(String beerDescription) {
