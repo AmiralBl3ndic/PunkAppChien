@@ -120,13 +120,7 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 		}
 		
 		BeerDialog beerDialog = activity.getBeerDialog();
-
-		if (beer == null) {
-			beerDialog.setBeerDescription("An error occurred, please try again");
-			return;
-		}
-
-		Beer.addBeerToFavourites(beer);
+		
 		beerDialog.setBeer(beer);
 	}
 }
