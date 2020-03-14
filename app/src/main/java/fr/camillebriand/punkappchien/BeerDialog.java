@@ -18,10 +18,12 @@ import android.widget.TextView;
 
 import fr.camillebriand.punkappchien.model.Beer;
 
-public class BeerDialog extends DialogFragment implements View.OnClickListener {
+public class BeerDialog extends DialogFragment {
 	
 	Context context;
 	Vibrator vibrator;
+	
+	Beer beer = null;
 	
 	private TextView beerName;
 	private ImageView beerImage;
@@ -46,7 +48,21 @@ public class BeerDialog extends DialogFragment implements View.OnClickListener {
 		
 		this.vibrator = this.context == null ? null : (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
 		
-		dialogView.findViewById(R.id.beer_dialog_dismiss_button).setOnClickListener(this);
+		// Handle clicks on the dismiss button
+		dialogView.findViewById(R.id.beer_dialog_dismiss_button).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dismiss();
+			}
+		});
+		
+		dialogView.findViewById(R.id.beer_dialog_add_favourite_button).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Beer.addBeerToFavourites(beer);
+				dismiss();
+			}
+		});
 		
 		builder.setView(dialogView);
 		return builder.create();
@@ -54,6 +70,8 @@ public class BeerDialog extends DialogFragment implements View.OnClickListener {
 	
 	
 	public void setBeer(Beer beer) {
+		this.beer = beer;
+		
 		if (beer != null) {
 			((ViewGroup) this.spinner.getParent()).removeView(this.spinner);
 			
@@ -67,26 +85,21 @@ public class BeerDialog extends DialogFragment implements View.OnClickListener {
 		}
 	}
 	
-	public void setBeerName(String beerName) {
+	private void setBeerName(String beerName) {
 		if (this.beerName == null) return;
 		
 		this.beerName.setText(beerName);
 	}
 	
-	public void setBeerImage(Bitmap bmp) {
+	private void setBeerImage(Bitmap bmp) {
 		if (this.beerImage == null) return;
 		
 		this.beerImage.setImageBitmap(bmp);
 	}
 	
-	public void setBeerDescription(String beerDescription) {
+	private void setBeerDescription(String beerDescription) {
 		if (this.beerDescription == null) return;
 		
 		this.beerDescription.setText(beerDescription);
-	}
-	
-	@Override
-	public void onClick(View v) {
-		this.dismiss();
 	}
 }

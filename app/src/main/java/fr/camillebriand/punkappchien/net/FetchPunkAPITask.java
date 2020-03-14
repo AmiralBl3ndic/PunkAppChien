@@ -66,10 +66,12 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 				}
 				
 				jsonApiResponse = apiResponse.getJSONObject(0);
-				imageInputStream = new URL(jsonApiResponse.getString("image_url")).openStream();
-
-				jsonApiResponse.put("image", BitmapFactory.decodeStream(imageInputStream));
-
+				
+				if (jsonApiResponse.has("image_url") && !jsonApiResponse.getString("image_url").equals("null")) {
+					imageInputStream = new URL(jsonApiResponse.getString("image_url")).openStream();
+					jsonApiResponse.put("image", BitmapFactory.decodeStream(imageInputStream));
+				}
+				
 				try {
 					beer = new Beer(jsonApiResponse, this.activityRef.get().getApplicationContext());
 				} catch (NullPointerException e) {  // Can only be thrown if activityRef.get() is null
@@ -118,13 +120,7 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 		}
 		
 		BeerDialog beerDialog = activity.getBeerDialog();
-
-		if (beer == null) {
-			beerDialog.setBeerDescription("An error occurred, please try again");
-			return;
-		}
-
-		Beer.addBeerToCollection(beer);
+		
 		beerDialog.setBeer(beer);
 	}
 }
