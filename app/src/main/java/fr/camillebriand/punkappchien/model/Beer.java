@@ -54,21 +54,6 @@ public class Beer {
 
 	///region Constructors
 	/**
-	 * Create a beer instance with no image
-	 * @param name Name of the beer
-	 * @param description Description of the beer
-	 */
-	private Beer(String name, String description) {
-		this.name = name;
-		this.description = description;
-	}
-
-	private Beer(String name, String description, Bitmap image) {
-		this(name, description);
-		this.image = image;
-	}
-	
-	/**
 	 * Instantiate a beer from a JSON object as returned by the Punk API
 	 * @param jsonBeer JSON Object representing a beer. Must have {@code name}, {@code description} and {@code image_url} fields
 	 * @param context Context in which the application is executed, mandatory to handle images not found
