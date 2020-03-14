@@ -102,9 +102,12 @@ public class Beer {
 
 	/**
 	 * Add a beer to the collection of beers
-	 * @param beer
+	 * @param beer Beer to add to the favourite beers
 	 */
 	public static void addBeerToFavourites(Beer beer) {
+		// Safety so that nulls or duplicates are not stored
+		if (beer == null || favourites.contains(beer)) return;
+		
 		favourites.add(beer);
 	}
 }
