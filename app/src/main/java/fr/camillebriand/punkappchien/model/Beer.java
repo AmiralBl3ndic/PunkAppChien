@@ -58,7 +58,7 @@ public class Beer {
 	 * @param name Name of the beer
 	 * @param description Description of the beer
 	 */
-	public Beer(String name, String description) {
+	private Beer(String name, String description) {
 		this.name = name;
 		this.description = description;
 	}
