@@ -48,6 +48,9 @@ public class Beer {
 	@ColumnInfo(name = "abv", typeAffinity = ColumnInfo.REAL)
 	private double abv;
 	
+	@ColumnInfo(name = "grade", typeAffinity = ColumnInfo.INTEGER)
+	private int grade = 0;  // 0/10 by default
+	
 	@Ignore
 	private Bitmap image;
 
@@ -162,6 +165,14 @@ public class Beer {
 	
 	public Bitmap getImage() {
 		return image;
+	}
+	
+	public int getGrade() {
+		return grade;
+	}
+	
+	public void setGrade(int grade) {
+		this.grade = grade;
 	}
 	///endregion
 }
