@@ -5,57 +5,54 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 import fr.camillebriand.punkappchien.R;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Represents the interesting beer data returned by the Punk API
  */
 @Data
+@Entity(tableName = "Beers", primaryKeys = {"name", "tagline"})
 public class Beer {
-	private static final String JSON_NAME_KEY = "name";
-	private static final String JSON_DESCRIPTION_KEY = "description";
-	private static final String JSON_IMAGE_URL_KEY = "image_url";
-
+	@Ignore @Getter @Setter(AccessLevel.NONE)
 	private static final ArrayList<Beer> favourites = new ArrayList<>();
-
+	
+	@ColumnInfo(name = "name", typeAffinity = ColumnInfo.TEXT)
 	private String name;
+	
+	@ColumnInfo(name = "tagline", typeAffinity = ColumnInfo.TEXT)
+	private String tagline;
 
+	@ColumnInfo(name = "description", typeAffinity = ColumnInfo.TEXT)
 	private String description;
-
+	
+	@ColumnInfo(name = "image_url", typeAffinity = ColumnInfo.TEXT)
+	private String imageUrl;
+	
+	@ColumnInfo(name = "ibu", typeAffinity = ColumnInfo.INTEGER)
+	private int ibu;
+	
+	@ColumnInfo(name = "abv", typeAffinity = ColumnInfo.REAL)
+	private double abv;
+	
+	@Ignore
 	private Bitmap image;
 
-	/**
-	 * Create a beer instance with no image
-	 * @param name Name of the beer
-	 * @param description Description of the beer
-	 */
-	public Beer(String name, String description) {
-		this.name = name;
-		this.description = description;
-	}
-
-	public Beer(String name, String description, Bitmap image) {
-		this(name, description);
-		this.image = image;
-	}
-
-	public Beer(Context context, String name, String description) {
-		this(
-				name,
-				description,
-				getDefaultImage(context)
-		);
-	}
-
+	///region Constructors
 	/**
 	 * Instantiate a beer from a JSON object as returned by the Punk API
 	 * @param jsonBeer JSON Object representing a beer. Must have {@code name}, {@code description} and {@code image_url} fields
@@ -67,15 +64,19 @@ public class Beer {
 		}
 
 		try {
-			this.name = jsonBeer.getString(JSON_NAME_KEY);
-			this.description = jsonBeer.getString(JSON_DESCRIPTION_KEY);
+			this.name = jsonBeer.getString("name");
+			this.description = jsonBeer.getString("description");
+			this.imageUrl = jsonBeer.getString("image_url");
+			this.tagline = jsonBeer.getString("tagline");
+			this.abv = jsonBeer.getDouble("abv");
+			this.ibu = jsonBeer.getInt("ibu");
 		} catch (JSONException e) {
 			Log.e("punkappchien", "JSONException", e);
 		}
 
 		try {
 			this.image = null;
-			this.image = BitmapFactory.decodeStream(new URL(jsonBeer.getString(JSON_IMAGE_URL_KEY)).openStream());
+			this.image = BitmapFactory.decodeStream(new URL(jsonBeer.getString(this.imageUrl)).openStream());
 		} catch (IOException e) {
 			Log.e("punkappchien", "IOException", e);
 		} catch (JSONException e) {
@@ -86,18 +87,10 @@ public class Beer {
 			}
 		}
 	}
-
+	///endregion
 
 	private static Bitmap getDefaultImage(Context context) {
 		return BitmapFactory.decodeResource(context.getResources(), R.drawable.logo);
-	}
-
-	/**
-	 * Get the collection of beers
-	 * @return A {@link List<Beer>} of beers
-	 */
-	public static List<Beer> getBeersCollection() {
-		return favourites;
 	}
 
 	/**

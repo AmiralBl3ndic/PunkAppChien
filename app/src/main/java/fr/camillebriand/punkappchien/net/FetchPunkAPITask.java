@@ -75,12 +75,12 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 				try {
 					beer = new Beer(jsonApiResponse, this.activityRef.get().getApplicationContext());
 				} catch (NullPointerException e) {  // Can only be thrown if activityRef.get() is null
-					beer = new Beer(
-							jsonApiResponse.getString("name"),
-							jsonApiResponse.getString("description")
-					);
-					Bitmap bmp = BitmapFactory.decodeStream(imageInputStream);
-					beer.setImage(bmp);
+					if (this.activityRef.get() != null) {
+						beer = new Beer(
+								jsonApiResponse,
+								this.activityRef.get().getApplicationContext()
+						);
+					}
 				}
 			} catch (JSONException e) {
 				Log.e("net", "JSONException", e);
