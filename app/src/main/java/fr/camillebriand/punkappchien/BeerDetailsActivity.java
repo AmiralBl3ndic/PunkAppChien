@@ -3,6 +3,7 @@ package fr.camillebriand.punkappchien;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +28,11 @@ public class BeerDetailsActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_beer_details);
 		
+		if (getSupportActionBar() != null) {
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setDisplayShowHomeEnabled(true);
+		}
+		
 		// Gather beer data from Intent
 		Beer beer = (Beer) getIntent().getSerializableExtra("beer");
 		
@@ -43,12 +49,26 @@ public class BeerDetailsActivity extends AppCompatActivity {
 		ibuTextView = findViewById(R.id.beer_details_ibu);
 		beerImageView = findViewById(R.id.beer_details_image);
 		
+		new GetBeerImageForDetails(this).execute(beer);
 		nameTextView.setText(beer.getName());
 		taglineTextView.setText(beer.getTagline());
 		descriptionTextView.setText(beer.getDescription());
 		abvTextView.setText(String.format(Locale.getDefault(), "%.2f", beer.getAbv()));
 		ibuTextView.setText(String.valueOf(beer.getIbu()));
+	}
+	
+	
+	/**
+	 * Handles the back arrow in the action bar
+	 * @param item ???
+	 * @return ???
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			finish();
+		}
 		
-		new GetBeerImageForDetails(this).execute(beer);
+		return super.onOptionsItemSelected(item);
 	}
 }
