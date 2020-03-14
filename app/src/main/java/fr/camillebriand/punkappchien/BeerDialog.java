@@ -2,12 +2,10 @@ package fr.camillebriand.punkappchien;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import android.app.DialogFragment;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import fr.camillebriand.punkappchien.model.Beer;
+import fr.camillebriand.punkappchien.persistence.BeerDatabase;
 
 public class BeerDialog extends DialogFragment {
 	
@@ -59,7 +58,8 @@ public class BeerDialog extends DialogFragment {
 		dialogView.findViewById(R.id.beer_dialog_add_favourite_button).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Beer.addBeerToFavourites(beer);
+				Beer.addBeerToFavourites(beer);  // Local "caching"
+				BeerDatabase.getInstance(context).beerDAO().insertBeer(beer);  // Persistence
 				dismiss();
 			}
 		});
