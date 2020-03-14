@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import fr.camillebriand.punkappchien.model.Beer;
+import fr.camillebriand.punkappchien.net.GetBeerImageForDialog;
 import fr.camillebriand.punkappchien.persistence.BeerDatabase;
 
 public class BeerDialog extends DialogFragment {
@@ -87,6 +88,7 @@ public class BeerDialog extends DialogFragment {
 			
 			this.setBeerName(beer.getName());
 			this.setBeerDescription(beer.getDescription());
+			new GetBeerImageForDialog(this).execute(beer);
 			
 			if (this.vibrator != null) {
 				this.vibrator.vibrate(200);
@@ -100,7 +102,7 @@ public class BeerDialog extends DialogFragment {
 		this.beerName.setText(beerName);
 	}
 	
-	private void setBeerImage(Bitmap bmp) {
+	public void setBeerImage(Bitmap bmp) {
 		if (this.beerImage == null) return;
 		
 		this.beerImage.setImageBitmap(bmp);
