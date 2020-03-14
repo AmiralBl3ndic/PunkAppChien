@@ -1,7 +1,6 @@
 package fr.camillebriand.punkappchien.net;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -73,13 +72,10 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 				}
 				
 				try {
-					beer = new Beer(jsonApiResponse, this.activityRef.get().getApplicationContext());
+					beer = new Beer(jsonApiResponse);
 				} catch (NullPointerException e) {  // Can only be thrown if activityRef.get() is null
 					if (this.activityRef.get() != null) {
-						beer = new Beer(
-								jsonApiResponse,
-								this.activityRef.get().getApplicationContext()
-						);
+						beer = new Beer(jsonApiResponse);
 					}
 				}
 			} catch (JSONException e) {
