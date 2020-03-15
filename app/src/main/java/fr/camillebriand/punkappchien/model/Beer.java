@@ -32,6 +32,9 @@ public class Beer implements Serializable {
 	@Ignore @Getter @Setter(AccessLevel.NONE)
 	private static final ArrayList<Beer> favourites = new ArrayList<>();
 	
+	@Ignore @Getter
+	private static final ArrayList<Beer> dbBeers = new ArrayList<>();
+	
 	@ColumnInfo(name = "name", typeAffinity = ColumnInfo.TEXT) @NonNull
 	private String name = "";
 	
