@@ -94,6 +94,18 @@
 			</LinearLayout>
 		</LinearLayout>
 		
+		<TextView
+			android:text="@string/rate_this_beer"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="25sp"/>
+		
+		<SeekBar
+			android:id="@+id/rating_seekbar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:max="10"/>
+		
 		<Button
 			android:id="@+id/details_share_beer_button"
 			android:layout_height="wrap_content"
