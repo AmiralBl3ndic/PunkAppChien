@@ -55,6 +55,9 @@ public class Beer implements Serializable {
 	
 	@ColumnInfo(name = "grade", typeAffinity = ColumnInfo.INTEGER)
 	private int grade = 0;  // 0/10 by default
+	
+	@ColumnInfo(name = "is_favourite")
+	private boolean isFavourite = false;
 
 	///region Constructors
 	public Beer() {}
@@ -190,6 +193,14 @@ public class Beer implements Serializable {
 	
 	public void setGrade(int grade) {
 		this.grade = grade;
+	}
+	
+	public boolean isFavourite() {
+		return isFavourite;
+	}
+	
+	public void setFavourite(boolean favourite) {
+		isFavourite = favourite;
 	}
 	///endregion
 }
