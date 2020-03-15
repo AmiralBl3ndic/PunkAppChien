@@ -17,7 +17,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import fr.camillebriand.punkappchien.BeerDialog;
-import fr.camillebriand.punkappchien.MainActivity;
 import fr.camillebriand.punkappchien.model.Beer;
 import fr.camillebriand.punkappchien.util.StreamsUtil;
 

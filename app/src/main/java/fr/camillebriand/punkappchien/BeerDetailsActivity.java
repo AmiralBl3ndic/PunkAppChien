@@ -40,8 +40,6 @@ public class BeerDetailsActivity extends AppCompatActivity {
 			getSupportActionBar().setDisplayShowHomeEnabled(true);
 		}
 		
-		new FetchPunkAPITask(this).execute();
-		
 		// Gather beer data from Intent
 		final Beer beer = (Beer) getIntent().getSerializableExtra("beer");
 		
