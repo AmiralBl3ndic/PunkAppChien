@@ -3,15 +3,18 @@ package fr.camillebriand.punkappchien;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.Locale;
 
 import fr.camillebriand.punkappchien.async.GetBeerImageForDetails;
+import fr.camillebriand.punkappchien.async.UpdateBeerInDatabaseTask;
 import fr.camillebriand.punkappchien.model.Beer;
 import lombok.Getter;
 
@@ -22,6 +25,7 @@ public class BeerDetailsActivity extends AppCompatActivity {
 	private TextView descriptionTextView;
 	private TextView abvTextView;
 	private TextView ibuTextView;
+	private TextView beerGradeTextView;
 	@Getter
 	private ImageView beerImageView;
 	
@@ -50,6 +54,7 @@ public class BeerDetailsActivity extends AppCompatActivity {
 		abvTextView = findViewById(R.id.beer_details_abv);
 		ibuTextView = findViewById(R.id.beer_details_ibu);
 		beerImageView = findViewById(R.id.beer_details_image);
+		beerGradeTextView = findViewById(R.id.beer_rate_textview);
 		
 		// Handle clicks on the "Share this beer" button
 		findViewById(R.id.details_share_beer_button).setOnClickListener(new View.OnClickListener() {
@@ -65,6 +70,25 @@ public class BeerDetailsActivity extends AppCompatActivity {
 				startActivity(Intent.createChooser(sharingIntent, "Share via"));
 			}
 		});
+		
+		// Handle SeekBar changes only if API version is sufficient
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			((SeekBar) findViewById(R.id.rating_seekbar)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+				@Override
+				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+					beer.setGrade(progress);
+					beerGradeTextView.setText(String.valueOf(progress));
+				}
+				
+				@Override
+				public void onStartTrackingTouch(SeekBar seekBar) {}
+				
+				@Override
+				public void onStopTrackingTouch(SeekBar seekBar) {
+					new UpdateBeerInDatabaseTask(getApplicationContext()).execute(beer);
+				}
+			});
+		}
 		
 		new GetBeerImageForDetails(this).execute(beer);
 		nameTextView.setText(beer.getName());
