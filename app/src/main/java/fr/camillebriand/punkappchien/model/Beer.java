@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -95,6 +96,15 @@ public class Beer implements Serializable {
 		return null;
 	}
 	
+	@Override
+	public boolean equals(@Nullable Object obj) {
+		if (obj != null && obj.getClass().equals(this.getClass())) {
+			Beer b = (Beer) obj;
+			
+			return b.name.equals(name) && b.tagline.equals(tagline) && b.ibu == ibu;
+		}
+		return false;
+	}
 
 	/**
 	 * Add a beer to the collection of beers
