@@ -120,6 +120,7 @@ public class Beer implements Serializable {
 		// Safety so that nulls or duplicates are not stored
 		if (beer == null || favourites.contains(beer)) return;
 		
+		beer.isFavourite = true;
 		favourites.add(beer);
 	}
 	
