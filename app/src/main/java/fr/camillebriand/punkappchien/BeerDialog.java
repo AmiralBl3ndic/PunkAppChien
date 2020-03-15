@@ -1,9 +1,11 @@
 package fr.camillebriand.punkappchien;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -15,10 +17,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import fr.camillebriand.punkappchien.model.Beer;
+import fr.camillebriand.punkappchien.async.GetBeerImageForDialog;
 import fr.camillebriand.punkappchien.persistence.BeerDatabase;
 
 public class BeerDialog extends DialogFragment {
 	
+	Activity activity;
 	Context context;
 	Vibrator vibrator;
 	
@@ -31,6 +35,10 @@ public class BeerDialog extends DialogFragment {
 	
 	public void setContext(Context context) {
 		this.context = context;
+	}
+	
+	public void setActivity(Activity activity) {
+		this.activity = activity;
 	}
 	
 	@Override
@@ -51,6 +59,9 @@ public class BeerDialog extends DialogFragment {
 		dialogView.findViewById(R.id.beer_dialog_dismiss_button).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				Intent detailsIntent = new Intent(activity, BeerDetailsActivity.class);
+				detailsIntent.putExtra("beer", beer);
+				startActivity(detailsIntent);
 				dismiss();
 			}
 		});
@@ -76,8 +87,8 @@ public class BeerDialog extends DialogFragment {
 			((ViewGroup) this.spinner.getParent()).removeView(this.spinner);
 			
 			this.setBeerName(beer.getName());
-			this.setBeerImage(beer.getImage());
 			this.setBeerDescription(beer.getDescription());
+			new GetBeerImageForDialog(this).execute(beer);
 			
 			if (this.vibrator != null) {
 				this.vibrator.vibrate(200);
@@ -91,7 +102,7 @@ public class BeerDialog extends DialogFragment {
 		this.beerName.setText(beerName);
 	}
 	
-	private void setBeerImage(Bitmap bmp) {
+	public void setBeerImage(Bitmap bmp) {
 		if (this.beerImage == null) return;
 		
 		this.beerImage.setImageBitmap(bmp);

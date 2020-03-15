@@ -4,4 +4,7 @@
 	<string name="beer_dialog_dismiss_button_text">Dismiss</string>
 	<string name="main_activity_button_text">Get another beer</string>
 	<string name="add_to_favourites">Add to favourites</string>
+	<string name="ABV">ABV</string>
+	<string name="IBU">IBU</string>
+	<string name="beer_image_content_description">Image of the beer</string>
 </resources>

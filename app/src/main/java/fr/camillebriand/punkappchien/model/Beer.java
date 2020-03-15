@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import lombok.Setter;
  * Represents the interesting beer data returned by the Punk API
  */
 @Entity(tableName = "Beers", primaryKeys = {"name", "tagline"})
-public class Beer {
+public class Beer implements Serializable {
 	@Ignore @Getter @Setter(AccessLevel.NONE)
 	private static final ArrayList<Beer> favourites = new ArrayList<>();
 	
@@ -48,8 +49,8 @@ public class Beer {
 	@ColumnInfo(name = "abv", typeAffinity = ColumnInfo.REAL)
 	private double abv;
 	
-	@Ignore
-	private Bitmap image;
+	@ColumnInfo(name = "grade", typeAffinity = ColumnInfo.INTEGER)
+	private int grade = 0;  // 0/10 by default
 
 	///region Constructors
 	public Beer() {}
@@ -70,31 +71,28 @@ public class Beer {
 			this.tagline = jsonBeer.getString("tagline");
 			this.abv = jsonBeer.getDouble("abv");
 			this.ibu = jsonBeer.getInt("ibu");
-			
-			if (this.imageUrl.equals("null")) {
-				this.image = null;
-			} else {
-				loadImageFromUrl();
-			}
 		} catch (JSONException e) {
 			Log.e("punkappchien", "JSONException", e);
 		}
 	}
 	///endregion
 	
-	private void loadImageFromUrl() {
+	public Bitmap getImage() {
 		// Do not use network if not necessary
-		if (imageUrl.equals("null")) return;
+		if (imageUrl.equals("null")) return null;
 		
 		try {
 			InputStream imageInputSteam = new URL(imageUrl).openStream();
-			image = BitmapFactory.decodeStream(imageInputSteam);
+			Bitmap image = BitmapFactory.decodeStream(imageInputSteam);
 			imageInputSteam.close();
+			return image;
 		} catch (MalformedURLException e) {
 			Log.e("punkappchien", "MalformedURLException", e);
 		} catch (IOException e) {
 			Log.e("punkappchien", "IOException", e);
 		}
+		
+		return null;
 	}
 	
 
@@ -109,7 +107,7 @@ public class Beer {
 		favourites.add(beer);
 	}
 	
-	///region Getters & Setters
+	///region Default Getters & Setters
 	@NonNull
 	public String getName() {
 		return name;
@@ -160,8 +158,12 @@ public class Beer {
 		this.abv = abv;
 	}
 	
-	public Bitmap getImage() {
-		return image;
+	public int getGrade() {
+		return grade;
+	}
+	
+	public void setGrade(int grade) {
+		this.grade = grade;
 	}
 	///endregion
 }

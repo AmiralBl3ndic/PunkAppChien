@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		
 		this.beerDialog = new BeerDialog();
 		this.beerDialog.setContext(getApplicationContext());
+		this.beerDialog.setActivity(this);
 		
 		showBeerDialog();
 		
