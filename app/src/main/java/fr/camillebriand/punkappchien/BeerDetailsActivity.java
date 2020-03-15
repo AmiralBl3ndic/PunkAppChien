@@ -3,10 +3,12 @@ package fr.camillebriand.punkappchien;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -65,6 +67,24 @@ public class BeerDetailsActivity extends AppCompatActivity {
 				startActivity(Intent.createChooser(sharingIntent, "Share via"));
 			}
 		});
+		
+		// Handle SeekBar changes only if API version is sufficient
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			((SeekBar) findViewById(R.id.rating_seekbar)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+				@Override
+				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+					// TODO: update beer object's rating
+				}
+				
+				@Override
+				public void onStartTrackingTouch(SeekBar seekBar) {}
+				
+				@Override
+				public void onStopTrackingTouch(SeekBar seekBar) {
+					// TODO: update beer database record rating
+				}
+			});
+		}
 		
 		new GetBeerImageForDetails(this).execute(beer);
 		nameTextView.setText(beer.getName());
