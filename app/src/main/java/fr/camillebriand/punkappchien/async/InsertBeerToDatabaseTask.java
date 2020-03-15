@@ -13,6 +13,11 @@ public class InsertBeerToDatabaseTask extends BeerDatabaseTask {
 	@Override
 	protected Void doInBackground(Beer... beers) {
 		BeerDatabase.getInstance(context).beerDAO().insertBeer(beers[0]);
+		
+		// Update local list of beers
+		Beer.getDbBeers().remove(beers[0]);
+		Beer.getDbBeers().add(beers[0]);
+		
 		return null;
 	}
 }
