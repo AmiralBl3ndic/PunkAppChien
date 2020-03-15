@@ -8,4 +8,5 @@
 	<string name="IBU">IBU</string>
 	<string name="beer_image_content_description">Image of the beer</string>
 	<string name="more_details">More details</string>
+	<string name="share_beer">Share this beer</string>
 </resources>
