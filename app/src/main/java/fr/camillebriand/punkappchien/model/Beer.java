@@ -128,7 +128,7 @@ public class Beer implements Serializable {
 	 * @param beer Beer to check
 	 * @return Whether the beer was marked as favourite
 	 */
-	public static boolean isBeerFavourite(Beer beer) {
+	public static boolean isBeerFromAPIFavourite(Beer beer) {
 		for (Beer b : favourites) {
 			if (b.equals(beer)) return true;
 		}
