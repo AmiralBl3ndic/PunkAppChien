@@ -23,7 +23,10 @@ public class LoadBeersFromDatabaseTask extends AsyncTask<Void, Void, Void> {
 		List<Beer> beers = BeerDatabase.getInstance(contextRef.get()).beerDAO().getBeers();
 		
 		for (Beer beer : beers) {
-			Beer.addBeerToFavourites(beer);
+			Beer.getDbBeers().add(beer);
+			if (beer.isFavourite()) {
+				Beer.addBeerToFavourites(beer);
+			}
 		}
 		
 		return null;
