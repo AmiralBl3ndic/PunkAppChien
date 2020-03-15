@@ -73,7 +73,7 @@ public class BeerDetailsActivity extends AppCompatActivity {
 			((SeekBar) findViewById(R.id.rating_seekbar)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 				@Override
 				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-					// TODO: update beer object's rating
+					beer.setGrade(progress);
 				}
 				
 				@Override
