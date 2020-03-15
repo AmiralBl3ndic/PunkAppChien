@@ -12,7 +12,11 @@ public class UpdateBeerInDatabaseTask extends BeerDatabaseTask {
 	
 	@Override
 	protected Void doInBackground(Beer... beers) {
-		BeerDatabase.getInstance(context).beerDAO().updateBeer(beers[0]);
+		if (!Beer.getDbBeers().contains(beers[0])) {
+			new InsertBeerToDatabaseTask(context).execute(beers[0]);
+		} else {
+			BeerDatabase.getInstance(context).beerDAO().updateBeer(beers[0]);
+		}
 		
 		return null;
 	}
