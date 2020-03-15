@@ -56,7 +56,8 @@ public class BeerDetailsActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				String shareMessageContent = "You should try this beer!\n" +
-						beer.getName() + "\"" + beer.getTagline() + "\"";
+						beer.getName() + "\"" + beer.getTagline() + "\""
+						+"\n\nhttps://play.google.com/store/apps/details?id=fr.camillebriand.punkappchien";
 				
 				Intent sharingIntent = new Intent(Intent.ACTION_SEND);
 				sharingIntent.setType("text/plain");
