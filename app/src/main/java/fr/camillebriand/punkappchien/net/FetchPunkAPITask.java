@@ -16,6 +16,7 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import fr.camillebriand.punkappchien.BeerDialog;
 import fr.camillebriand.punkappchien.MainActivity;
 import fr.camillebriand.punkappchien.model.Beer;
 import fr.camillebriand.punkappchien.util.StreamsUtil;
@@ -30,12 +31,15 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 	
 	private String beerName = "";
 	
+	private BeerDialog beerDialog;
+	
 	/**
 	 * Create a new task to fetch the PunkAPI
 	 * @param activity Activity to reference
 	 */
 	public FetchPunkAPITask(Activity activity) {
 		this.activityRef = new WeakReference<>(activity);
+		this.beerDialog = new BeerDialog();
 	}
 	
 	public FetchPunkAPITask(Activity activity, String beerName) {
@@ -48,11 +52,10 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 		if (activityRef == null || activityRef.get() == null) return null;
 		
 		// First, display the dialog
-		MainActivity activity = (MainActivity) activityRef.get();
-		if (activity.getBeerDialog().isAdded()) {
-			activity.getBeerDialog().dismiss();
-		}
-		activity.showBeerDialog();  // Make beer dialog appear
+		Activity activity = activityRef.get();
+		beerDialog.setActivity(activity);
+		beerDialog.setContext(activity.getApplicationContext());
+		beerDialog.show(activity.getFragmentManager(), "dialog");
 		
 		URL apiUrl;
 		
@@ -141,6 +144,6 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 			return;
 		}
 		
-		activity.getBeerDialog().setBeer(beer);  // Update BeerDialog view
+		this.beerDialog.setBeer(beer);  // Update BeerDialog view
 	}
 }
