@@ -16,6 +16,7 @@ import java.util.Locale;
 import fr.camillebriand.punkappchien.async.GetBeerImageForDetails;
 import fr.camillebriand.punkappchien.async.UpdateBeerInDatabaseTask;
 import fr.camillebriand.punkappchien.model.Beer;
+import fr.camillebriand.punkappchien.net.FetchPunkAPITask;
 import lombok.Getter;
 
 public class BeerDetailsActivity extends AppCompatActivity {
@@ -38,6 +39,8 @@ public class BeerDetailsActivity extends AppCompatActivity {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			getSupportActionBar().setDisplayShowHomeEnabled(true);
 		}
+		
+		new FetchPunkAPITask(this).execute();
 		
 		// Gather beer data from Intent
 		final Beer beer = (Beer) getIntent().getSerializableExtra("beer");

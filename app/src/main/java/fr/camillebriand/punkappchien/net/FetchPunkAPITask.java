@@ -132,15 +132,14 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 			return;
 		}
 		
-		MainActivity activity = (MainActivity) this.activityRef.get();
 		
-		if (activity == null) {
+		if (this.activityRef.get() == null) {
 			Log.e("net", "Cannot process null activity");
 			return;
 		}
 		
 		if (beer == null) {  // If no beer returned, try again with no parameters
-			new FetchPunkAPITask(activity).execute();
+			new FetchPunkAPITask(this.activityRef.get()).execute();
 			return;
 		}
 		
