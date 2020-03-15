@@ -7,4 +7,5 @@
 	<string name="ABV">ABV</string>
 	<string name="IBU">IBU</string>
 	<string name="beer_image_content_description">Image of the beer</string>
+	<string name="more_details">More details</string>
 </resources>
