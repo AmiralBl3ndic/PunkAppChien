@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
-	android:layout_height="wrap_content"
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="match_parent"
 	android:layout_width="match_parent"
-	android:layout_gravity="center_vertical">
+	android:fillViewport="true"
+	android:padding="0sp"
+	>
 	<LinearLayout
 		android:orientation="vertical"
-		android:layout_gravity="center_vertical"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:paddingVertical="10sp">
+		android:paddingVertical="10sp"
+		android:background="@color/colorPrimary"
+		android:layout_margin="0sp">
 
 		<TextView
 			android:id="@+id/beer_dialog__name"
@@ -17,7 +20,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:textSize="30sp"
-			android:textColor="@color/colorAccent"
+			android:textColor="@color/colorWhite"
 			android:paddingHorizontal="5sp"
 			/>
 
@@ -40,6 +43,7 @@
 			android:id="@+id/beer_dialog__description"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:textColor="@color/colorWhite"
 			android:textSize="15sp"
 			android:padding="15sp"
 			/>
@@ -51,13 +55,26 @@
 			android:orientation="vertical">
 			
 			<Button
-				android:id="@+id/beer_dialog_add_favourite_button"
+				android:id="@+id/beer_dialog_more_details_button"
 				android:theme="@style/Widget.AppCompat.Button.Borderless.Colored"
 				android:layout_width="match_parent"
 				android:minWidth="1000sp"
 				android:layout_height="wrap_content"
 				android:layout_marginHorizontal="50sp"
 				android:layout_marginBottom="15sp"
+				android:text="@string/more_details"
+				android:background="@color/colorPrimaryDark"
+				android:textColor="@color/colorWhite"
+				/>
+			
+			<Button
+				android:id="@+id/beer_dialog_add_favourite_button"
+				android:theme="@style/Widget.AppCompat.Button.Borderless.Colored"
+				android:layout_width="match_parent"
+				android:minWidth="1000sp"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="50sp"
+				android:layout_marginBottom="30sp"
 				android:text="@string/add_to_favourites"
 				android:background="@color/colorPrimary"
 				android:textColor="@color/colorWhite"
