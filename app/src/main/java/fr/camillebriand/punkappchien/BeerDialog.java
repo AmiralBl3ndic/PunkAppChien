@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -16,9 +15,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import fr.camillebriand.punkappchien.model.Beer;
 import fr.camillebriand.punkappchien.async.GetBeerImageForDialog;
-import fr.camillebriand.punkappchien.persistence.BeerDatabase;
+import fr.camillebriand.punkappchien.async.InsertBeerToDatabaseTask;
+import fr.camillebriand.punkappchien.model.Beer;
 
 public class BeerDialog extends DialogFragment {
 	
@@ -59,9 +58,6 @@ public class BeerDialog extends DialogFragment {
 		dialogView.findViewById(R.id.beer_dialog_dismiss_button).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent detailsIntent = new Intent(activity, BeerDetailsActivity.class);
-				detailsIntent.putExtra("beer", beer);
-				startActivity(detailsIntent);
 				dismiss();
 			}
 		});
@@ -70,7 +66,8 @@ public class BeerDialog extends DialogFragment {
 			@Override
 			public void onClick(View v) {
 				Beer.addBeerToFavourites(beer);  // Local "caching"
-				BeerDatabase.getInstance(context).beerDAO().insertBeer(beer);  // Persistence
+				new InsertBeerToDatabaseTask(context).execute(beer);
+				
 				dismiss();
 			}
 		});
