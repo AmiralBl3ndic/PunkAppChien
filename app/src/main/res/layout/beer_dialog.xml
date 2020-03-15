@@ -68,14 +68,13 @@
 				/>
 			
 			<Button
-				android:id="@+id/beer_dialog_add_favourite_button"
+				android:id="@+id/beer_dialog_toggle_favourite_button"
 				android:theme="@style/Widget.AppCompat.Button.Borderless.Colored"
 				android:layout_width="match_parent"
 				android:minWidth="1000sp"
 				android:layout_height="wrap_content"
 				android:layout_marginHorizontal="50sp"
 				android:layout_marginBottom="30sp"
-				android:text="@string/add_to_favourites"
 				android:background="@color/colorPrimary"
 				android:textColor="@color/colorWhite"
 				/>

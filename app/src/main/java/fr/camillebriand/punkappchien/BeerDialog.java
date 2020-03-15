@@ -12,12 +12,14 @@ import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import fr.camillebriand.punkappchien.async.GetBeerImageForDialog;
 import fr.camillebriand.punkappchien.async.InsertBeerToDatabaseTask;
+import fr.camillebriand.punkappchien.async.UpdateBeerInDatabaseTask;
 import fr.camillebriand.punkappchien.model.Beer;
 
 public class BeerDialog extends DialogFragment {
@@ -32,6 +34,7 @@ public class BeerDialog extends DialogFragment {
 	private ImageView beerImage;
 	private TextView beerDescription;
 	private ProgressBar spinner;
+	private Button toggleFavouriteButton;
 	
 	public void setContext(Context context) {
 		this.context = context;
@@ -52,17 +55,29 @@ public class BeerDialog extends DialogFragment {
 		this.beerImage = dialogView.findViewById(R.id.beer_dialog__image);
 		this.beerDescription = dialogView.findViewById(R.id.beer_dialog__description);
 		this.spinner = dialogView.findViewById(R.id.beer_dialog__spinner);
+		this.toggleFavouriteButton = dialogView.findViewById(R.id.beer_dialog_toggle_favourite_button);
+		
+		this.toggleFavouriteButton.setText(Beer.getFavourites().contains(beer) ? R.string.remove_from_favourites : R.string.add_to_favourites);
 		
 		this.vibrator = this.context == null ? null : (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
 		
 		// Handle clicks on the add to favourites button
-		dialogView.findViewById(R.id.beer_dialog_add_favourite_button).setOnClickListener(new View.OnClickListener() {
+		this.toggleFavouriteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Beer.addBeerToFavourites(beer);  // Local "caching"
-				new InsertBeerToDatabaseTask(context).execute(beer);
+				if (Beer.getFavourites().contains(beer)) {
+					toggleFavouriteButton.setText(R.string.add_to_favourites);
+					
+					beer.setFavourite(false);
+					Beer.getFavourites().remove(beer);
+				} else {
+					toggleFavouriteButton.setText(R.string.remove_from_favourites);
+					
+					Beer.addBeerToFavourites(beer);
+					beer.setFavourite(true);
+				}
 				
-				dismiss();
+				new UpdateBeerInDatabaseTask(context).execute(beer);
 			}
 		});
 		
