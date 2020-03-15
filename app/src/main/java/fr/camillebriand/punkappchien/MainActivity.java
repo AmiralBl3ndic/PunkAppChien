@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	/**
 	 * Shows the beer dialog
 	 */
-	private void showBeerDialog() {
+	public void showBeerDialog() {
 		this.beerDialog.show(getFragmentManager(), "dialog");
 	}
 	

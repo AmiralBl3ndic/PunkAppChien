@@ -25,8 +25,11 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 	private static final String BASE_API_PATH = "https://api.punkapi.com/v2/beers";
 	
 	private static final String RANDOM_BEER_API_PATH = BASE_API_PATH + "/random";
+	private static final String BEER_API_BEER_NAME_FILTER = "beer_name=";
 	
 	private WeakReference<Activity> activityRef;
+	
+	private String beerName = "";
 	
 	/**
 	 * Create a new task to fetch the PunkAPI
@@ -34,6 +37,11 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 	 */
 	public FetchPunkAPITask(Activity activity) {
 		this.activityRef = new WeakReference<>(activity);
+	}
+	
+	public FetchPunkAPITask(Activity activity, String beerName) {
+		this(activity);
+		this.beerName = beerName.replace(" ", "_");
 	}
 	
 	@Override
@@ -48,7 +56,12 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 		
 		try {
 			// Setup API connection
-			apiUrl = new URL(RANDOM_BEER_API_PATH);
+			if (this.beerName.isEmpty()) {
+				apiUrl = new URL(RANDOM_BEER_API_PATH);
+			} else {
+				apiUrl = new URL(BASE_API_PATH + "?" + BEER_API_BEER_NAME_FILTER + this.beerName);
+			}
+			
 			HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
 			
 			try {
@@ -61,7 +74,7 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 				JSONArray apiResponse = new JSONArray(apiResponseAsString);
 				
 				if (apiResponse.length() == 0) {
-					throw new RuntimeException("No data returned from API");
+					return null;
 				}
 				
 				jsonApiResponse = apiResponse.getJSONObject(0);
@@ -115,8 +128,13 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 			return;
 		}
 		
-		BeerDialog beerDialog = activity.getBeerDialog();
+		if (beer == null) {  // If no beer returned, try again with no parameters
+			new FetchPunkAPITask(activity).execute();
+			return;
+		}
 		
-		beerDialog.setBeer(beer);
+		activity.showBeerDialog();  // Make beer dialog appear
+		BeerDialog beerDialog = activity.getBeerDialog();  // Gather beer dialog
+		beerDialog.setBeer(beer);  // Update its view
 	}
 }
