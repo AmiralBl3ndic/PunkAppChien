@@ -19,8 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		this.beerDialog = new BeerDialog();
 		this.beerDialog.setContext(getApplicationContext());
 		this.beerDialog.setActivity(this);
-		
-		showBeerDialog();
+	
 		
 		this.findViewById(R.id.main_activity_dialog_button).setOnClickListener(this);
 		
@@ -41,6 +40,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	@Override
 	public void onClick(View v) {
 		new FetchPunkAPITask(this).execute();
-		this.showBeerDialog();
 	}
 }

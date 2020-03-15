@@ -16,7 +16,6 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import fr.camillebriand.punkappchien.BeerDialog;
 import fr.camillebriand.punkappchien.MainActivity;
 import fr.camillebriand.punkappchien.model.Beer;
 import fr.camillebriand.punkappchien.util.StreamsUtil;
@@ -46,6 +45,15 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 	
 	@Override
 	protected Beer doInBackground(Void... voids) {
+		if (activityRef == null || activityRef.get() == null) return null;
+		
+		// First, display the dialog
+		MainActivity activity = (MainActivity) activityRef.get();
+		if (activity.getBeerDialog().isAdded()) {
+			activity.getBeerDialog().dismiss();
+		}
+		activity.showBeerDialog();  // Make beer dialog appear
+		
 		URL apiUrl;
 		
 		InputStream apiInputStream = null;
@@ -133,8 +141,6 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 			return;
 		}
 		
-		activity.showBeerDialog();  // Make beer dialog appear
-		BeerDialog beerDialog = activity.getBeerDialog();  // Gather beer dialog
-		beerDialog.setBeer(beer);  // Update its view
+		activity.getBeerDialog().setBeer(beer);  // Update BeerDialog view
 	}
 }
