@@ -1,16 +1,13 @@
 package fr.camillebriand.punkappchien.async;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import fr.camillebriand.punkappchien.model.Beer;
 import fr.camillebriand.punkappchien.persistence.BeerDatabase;
 
-public class InsertBeerToDatabaseTask extends AsyncTask<Beer, Void, Void> {
-	private Context context;
-	
+public class InsertBeerToDatabaseTask extends BeerDatabaseTask {
 	public InsertBeerToDatabaseTask(Context context) {
-		this.context = context;
+		super(context);
 	}
 	
 	@Override
