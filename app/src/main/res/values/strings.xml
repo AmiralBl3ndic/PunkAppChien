@@ -10,4 +10,5 @@
 	<string name="more_details">More details</string>
 	<string name="share_beer">Share this beer</string>
 	<string name="rate_this_beer">Rate this beer:</string>
+	<string name="remove_from_favourites">Remove from favourites</string>
 </resources>

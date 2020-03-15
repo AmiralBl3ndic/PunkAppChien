@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class BeerDetailsActivity extends AppCompatActivity {
 	private TextView abvTextView;
 	private TextView ibuTextView;
 	private TextView beerGradeTextView;
+	private Button toggleFavouriteButton;
 	@Getter
 	private ImageView beerImageView;
 	
@@ -55,6 +57,34 @@ public class BeerDetailsActivity extends AppCompatActivity {
 		ibuTextView = findViewById(R.id.beer_details_ibu);
 		beerImageView = findViewById(R.id.beer_details_image);
 		beerGradeTextView = findViewById(R.id.beer_rate_textview);
+		toggleFavouriteButton = findViewById(R.id.details_toggle_favourite_button);
+		
+		if (Beer.getFavourites().contains(beer)) {
+			toggleFavouriteButton.setText(R.string.remove_from_favourites);
+			// Ensure beer is marked as favourite
+			beer.setFavourite(true);
+		} else {
+			toggleFavouriteButton.setText(R.string.add_to_favourites);
+			// Ensure beer is marked as not favourite
+			beer.setFavourite(false);
+		}
+		
+		// Handle clicks on the "Toggle favourites" button
+		toggleFavouriteButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (beer.isFavourite()) {
+					Beer.getFavourites().remove(beer);
+					beer.setFavourite(false);
+				} else {
+					Beer.addBeerToFavourites(beer);
+					beer.setFavourite(true);
+				}
+				
+				toggleFavouriteButton.setText(beer.isFavourite() ? R.string.remove_from_favourites : R.string.add_to_favourites);
+				new UpdateBeerInDatabaseTask(getApplicationContext()).execute(beer);
+			}
+		});
 		
 		// Handle clicks on the "Share this beer" button
 		findViewById(R.id.details_share_beer_button).setOnClickListener(new View.OnClickListener() {
