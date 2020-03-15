@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -54,20 +55,31 @@ public class BeerDialog extends DialogFragment {
 		
 		this.vibrator = this.context == null ? null : (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
 		
-		// Handle clicks on the dismiss button
-		dialogView.findViewById(R.id.beer_dialog_dismiss_button).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dismiss();
-			}
-		});
-		
+		// Handle clicks on the add to favourites button
 		dialogView.findViewById(R.id.beer_dialog_add_favourite_button).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Beer.addBeerToFavourites(beer);  // Local "caching"
 				new InsertBeerToDatabaseTask(context).execute(beer);
 				
+				dismiss();
+			}
+		});
+		
+		// Handle clicks on the more details button
+		dialogView.findViewById(R.id.beer_dialog_more_details_button).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(activity, BeerDetailsActivity.class);
+				intent.putExtra("beer", beer);
+				startActivity(intent);
+			}
+		});
+		
+		// Handle clicks on the dismiss button
+		dialogView.findViewById(R.id.beer_dialog_dismiss_button).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				dismiss();
 			}
 		});
