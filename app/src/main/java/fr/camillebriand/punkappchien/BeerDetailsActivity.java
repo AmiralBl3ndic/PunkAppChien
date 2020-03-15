@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import fr.camillebriand.punkappchien.async.GetBeerImageForDetails;
+import fr.camillebriand.punkappchien.async.UpdateBeerInDatabaseTask;
 import fr.camillebriand.punkappchien.model.Beer;
 import lombok.Getter;
 
@@ -84,7 +85,7 @@ public class BeerDetailsActivity extends AppCompatActivity {
 				
 				@Override
 				public void onStopTrackingTouch(SeekBar seekBar) {
-					// TODO: update beer database record rating
+					new UpdateBeerInDatabaseTask(getApplicationContext()).execute(beer);
 				}
 			});
 		}
