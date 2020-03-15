@@ -16,7 +16,6 @@ import java.util.Locale;
 import fr.camillebriand.punkappchien.async.GetBeerImageForDetails;
 import fr.camillebriand.punkappchien.async.UpdateBeerInDatabaseTask;
 import fr.camillebriand.punkappchien.model.Beer;
-import fr.camillebriand.punkappchien.net.FetchPunkAPITask;
 import lombok.Getter;
 
 public class BeerDetailsActivity extends AppCompatActivity {
