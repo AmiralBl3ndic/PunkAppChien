@@ -2,8 +2,10 @@ package fr.camillebriand.punkappchien;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,7 +36,7 @@ public class BeerDetailsActivity extends AppCompatActivity {
 		}
 		
 		// Gather beer data from Intent
-		Beer beer = (Beer) getIntent().getSerializableExtra("beer");
+		final Beer beer = (Beer) getIntent().getSerializableExtra("beer");
 		
 		if (beer == null) {
 			finish();
@@ -48,6 +50,20 @@ public class BeerDetailsActivity extends AppCompatActivity {
 		abvTextView = findViewById(R.id.beer_details_abv);
 		ibuTextView = findViewById(R.id.beer_details_ibu);
 		beerImageView = findViewById(R.id.beer_details_image);
+		
+		// Handle clicks on the "Share this beer" button
+		findViewById(R.id.details_share_beer_button).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String shareMessageContent = "You should try this beer!\n" +
+						beer.getName() + "\"" + beer.getTagline() + "\"";
+				
+				Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+				sharingIntent.setType("text/plain");
+				sharingIntent.putExtra(Intent.EXTRA_TEXT, shareMessageContent);
+				startActivity(Intent.createChooser(sharingIntent, "Share via"));
+			}
+		});
 		
 		new GetBeerImageForDetails(this).execute(beer);
 		nameTextView.setText(beer.getName());
