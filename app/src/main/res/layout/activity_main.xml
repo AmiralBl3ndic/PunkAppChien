@@ -23,6 +23,16 @@
 		android:text="@string/main_activity_button_text"
 		android:textColor="@android:color/primary_text_dark" />
 
+	<Button
+		android:id="@+id/to_favoris"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@android:color/holo_blue_dark"
+		android:paddingLeft="20sp"
+		android:paddingRight="20sp"
+		android:text="@string/Favoris"
+		android:textColor="@android:color/primary_text_dark" />
+
 	<RelativeLayout
 		android:layout_width="wrap_content"
 		android:layout_height="526dp">
@@ -33,9 +43,8 @@
 			android:layout_height="match_parent"
 			tools:layout_editor_absoluteX="26dp"
 			tools:layout_editor_absoluteY="-297dp" />
+
 	</RelativeLayout>
-
-
 
 
 </LinearLayout>

@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.Collections;
 
 import fr.camillebriand.punkappchien.BeerDialog;
 import fr.camillebriand.punkappchien.model.Beer;
@@ -126,7 +126,13 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 	
 	@Override
 	protected void onPostExecute(Beer beer) {
+
+		Beer.getDbBeers().remove(beer);
 		Beer.getDbBeers().add(beer);
+
+
+
+		Collections.reverse(Beer.getDbBeers());
 		if (this.activityRef == null) {
 			Log.e("net", "Cannot process null weak reference to activity");
 			return;

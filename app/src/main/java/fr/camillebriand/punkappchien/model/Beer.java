@@ -33,7 +33,7 @@ public class Beer implements Serializable {
 	private static final ArrayList<Beer> favourites = new ArrayList<>();
 	
 	@Ignore @Getter
-	public static final ArrayList<Beer> dbBeers = new ArrayList<>();
+	private static final ArrayList<Beer> dbBeers = new ArrayList<>();
 	
 	@ColumnInfo(name = "name", typeAffinity = ColumnInfo.TEXT) @NonNull
 	private String name = "";
