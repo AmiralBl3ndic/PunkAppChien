@@ -15,23 +15,26 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import fr.camillebriand.punkappchien.BeerDialog;
 import fr.camillebriand.punkappchien.model.Beer;
 import fr.camillebriand.punkappchien.util.StreamsUtil;
+
+import static fr.camillebriand.punkappchien.model.Beer.dbBeers;
 
 public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 	private static final String BASE_API_PATH = "https://api.punkapi.com/v2/beers";
 	
 	private static final String RANDOM_BEER_API_PATH = BASE_API_PATH + "/random";
 	private static final String BEER_API_BEER_NAME_FILTER = "beer_name=";
-	
+
 	private WeakReference<Activity> activityRef;
 	
 	private String beerName = "";
 	
 	private BeerDialog beerDialog;
-	
+
 	/**
 	 * Create a new task to fetch the PunkAPI
 	 * @param activity Activity to reference
@@ -96,6 +99,7 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 				
 				try {
 					beer = new Beer(jsonApiResponse);
+					dbBeers.add(beer);
 				} catch (NullPointerException e) {  // Can only be thrown if activityRef.get() is null
 					if (this.activityRef.get() != null) {
 						beer = new Beer(jsonApiResponse);
@@ -115,12 +119,11 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 				}
 				
 				connection.disconnect();
-				
+
 			}
 		} catch (IOException e) {
 			Log.e("net", "IOException", e);
 		}
-
 		return beer;
 	}
 	
@@ -144,4 +147,5 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 		
 		this.beerDialog.setBeer(beer);  // Update BeerDialog view
 	}
+
 }
