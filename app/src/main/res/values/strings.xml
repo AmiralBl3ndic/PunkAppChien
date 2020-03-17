@@ -14,4 +14,5 @@
     <string name="item_default_name">BeerName</string>
     <string name="beer_default_name">"Ricard "</string>
     <string name="Favoris">to the favouris</string>
+    <string name="back">return</string>
 </resources>

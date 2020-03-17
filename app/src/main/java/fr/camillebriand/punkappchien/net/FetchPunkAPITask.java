@@ -130,8 +130,6 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 		Beer.getDbBeers().remove(beer);
 		Beer.getDbBeers().add(beer);
 
-
-
 		Collections.reverse(Beer.getDbBeers());
 		if (this.activityRef == null) {
 			Log.e("net", "Cannot process null weak reference to activity");

@@ -35,9 +35,7 @@ public class BeerListAdapter extends BaseAdapter {
     }
 
     @Override
-    public long getItemId(int position) {
-        return 0;
-    }
+    public long getItemId(int position) { return 0; }
 
     @SuppressLint({"ViewHolder", "InflateParams", "ResourceType"})
     @Override
