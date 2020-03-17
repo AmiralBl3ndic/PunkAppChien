@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.BaseAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +19,7 @@ import java.net.URL;
 import java.util.Collections;
 
 import fr.camillebriand.punkappchien.BeerDialog;
+import fr.camillebriand.punkappchien.MainActivity;
 import fr.camillebriand.punkappchien.model.Beer;
 import fr.camillebriand.punkappchien.util.StreamsUtil;
 
@@ -126,19 +128,6 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 	
 	@Override
 	protected void onPostExecute(Beer beer) {
-
-		Beer.getDbBeers().remove(beer);
-		Beer.getDbBeers().add(beer);
-
-
-
-		Collections.reverse(Beer.getDbBeers());
-		if (this.activityRef == null) {
-			Log.e("net", "Cannot process null weak reference to activity");
-			return;
-		}
-		
-		
 		if (this.activityRef.get() == null) {
 			Log.e("net", "Cannot process null activity");
 			return;
@@ -148,7 +137,20 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 			new FetchPunkAPITask(this.activityRef.get()).execute();
 			return;
 		}
+		
 		this.beerDialog.setBeer(beer);// Update BeerDialog view
+		
+		Beer.getDbBeers().remove(beer);
+		Beer.getDbBeers().add(beer);
+		
+		Collections.reverse(Beer.getDbBeers());
+		if (this.activityRef == null) {
+			Log.e("net", "Cannot process null weak reference to activity");
+			return;
+		}
+		
+		if (MainActivity.beerListAdapter != null) {
+			MainActivity.beerListAdapter.notifyDataSetChanged();
+		}
 	}
-
 }

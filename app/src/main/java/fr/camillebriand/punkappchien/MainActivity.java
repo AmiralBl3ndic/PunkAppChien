@@ -14,6 +14,8 @@ import fr.camillebriand.punkappchien.net.FetchPunkAPITask;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+	
+	public static BeerListAdapter beerListAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +36,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 				finish();
 			}
 		});
+		
+		ListView beerList = findViewById(R.id.shop_list_view);
+		
+		this.beerListAdapter = new BeerListAdapter(this, Beer.getDbBeers());
+		
+		beerList.setAdapter(MainActivity.beerListAdapter);
 	}
 	@Override
 	public void onClick(View v) {
-		ListView beerList = findViewById(R.id.shop_list_view);
-		beerList.setAdapter(new BeerListAdapter(this, Beer.getDbBeers()));
-
 		EditText searchBeer = (EditText) findViewById(R.id.beerSearched);
 		String searchBeerStr = searchBeer.getText().toString();
 
