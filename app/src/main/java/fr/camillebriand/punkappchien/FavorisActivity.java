@@ -2,6 +2,7 @@ package fr.camillebriand.punkappchien;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -18,12 +19,5 @@ public class FavorisActivity extends AppCompatActivity {
         ListView favorisListView = findViewById(R.id.fav_list_view);
         favorisListView.setAdapter(new BeerListAdapter(this, Beer.getFavourites()));
 
-        favorisListView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                BeerDetailsActivity;
-            }
-        });
     }
 }

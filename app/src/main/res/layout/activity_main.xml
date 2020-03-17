@@ -5,33 +5,46 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical"
+	android:padding="10dp"
 	tools:context=".MainActivity">
 
 	<EditText
 		android:id="@+id/beerSearched"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content" />
-
-	<Button
-		android:id="@+id/main_activity_dialog_button"
-		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="50dp"
-		android:background="@android:color/holo_blue_dark"
-		android:paddingLeft="20sp"
-		android:paddingRight="20sp"
-		android:text="@string/main_activity_button_text"
-		android:textColor="@android:color/primary_text_dark" />
+		android:orientation="horizontal" />
 
-	<Button
-		android:id="@+id/to_favoris"
-		android:layout_width="match_parent"
+	<LinearLayout
+		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:background="@android:color/holo_blue_dark"
-		android:paddingLeft="20sp"
-		android:paddingRight="20sp"
-		android:text="@string/Favoris"
-		android:textColor="@android:color/primary_text_dark" />
+		android:layout_alignParentBottom="true"
+		android:orientation="horizontal">
+
+		<Button
+			android:id="@+id/main_activity_dialog_button"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="50"
+			android:background="@android:color/holo_blue_dark"
+			android:paddingLeft="20sp"
+			android:paddingRight="20sp"
+			android:text="@string/main_activity_button_text"
+			android:textColor="@android:color/primary_text_dark"
+			android:layout_margin="10dp"/>
+
+		<Button
+			android:id="@+id/to_favoris"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="50"
+			android:background="@android:color/holo_blue_dark"
+			android:paddingLeft="20sp"
+			android:paddingRight="20sp"
+			android:text="@string/Favoris"
+			android:textColor="@android:color/primary_text_dark"
+			android:layout_margin="10dp"/>
+
+	</LinearLayout>
 
 	<RelativeLayout
 		android:layout_width="wrap_content"
