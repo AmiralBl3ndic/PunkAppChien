@@ -1,16 +1,15 @@
 package fr.camillebriand.punkappchien.async;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 
 import java.lang.ref.WeakReference;
 
-import fr.camillebriand.punkappchien.BeerDetailsActivity;
+import fr.camillebriand.punkappchien.BeerListAdapter;
 
 public class GetBeerImageForListView extends GetBeerImageTask {
-    private WeakReference<BeerDetailsActivity> activityRef;
+    private WeakReference<BeerListAdapter> activityRef;
 
-    public GetBeerImageForListView(BeerDetailsActivity activity) {
+    public GetBeerImageForListView(BeerListAdapter activity) {
         this.activityRef = new WeakReference<>(activity);
     }
 
@@ -18,6 +17,8 @@ public class GetBeerImageForListView extends GetBeerImageTask {
     protected void onPostExecute(Bitmap bitmap) {
         if (this.activityRef == null || this.activityRef.get() == null) return;
 
-        this.activityRef.get().getBeerImageView().setImageBitmap(bitmap);
+        if (bitmap != null) {
+            this.activityRef.get().getBeerImageView().setImageBitmap(bitmap);
+        }
     }
 }
