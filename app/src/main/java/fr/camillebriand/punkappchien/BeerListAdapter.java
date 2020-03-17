@@ -47,13 +47,13 @@ public class BeerListAdapter extends BaseAdapter {
     @SuppressLint({"ViewHolder", "InflateParams", "ResourceType"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = inflater.inflate(R.layout.adapter_item, null);
+        convertView = inflater.inflate(R.layout.adapter_beer, null);
 
         Beer currentBeer =  getItem(position);
         String beerName = currentBeer.getName();
 
 
-        TextView beerNameView = convertView.findViewById(R.id.item_name);
+        TextView beerNameView = convertView.findViewById(R.id.beer_name);
         beerNameView.setText(beerName);
         return convertView;
     }

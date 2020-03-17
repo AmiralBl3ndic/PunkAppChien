@@ -12,4 +12,5 @@
 	<string name="rate_this_beer">Rate this beer:</string>
 	<string name="remove_from_favourites">Remove from favourites</string>
     <string name="item_default_name">BeerName</string>
+	<string name="beer_default_name">"Ricard "</string>
 </resources>

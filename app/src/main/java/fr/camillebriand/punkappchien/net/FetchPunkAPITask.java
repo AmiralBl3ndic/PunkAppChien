@@ -126,6 +126,7 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 	
 	@Override
 	protected void onPostExecute(Beer beer) {
+		Beer.getDbBeers().add(beer);
 		if (this.activityRef == null) {
 			Log.e("net", "Cannot process null weak reference to activity");
 			return;
@@ -141,7 +142,6 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 			new FetchPunkAPITask(this.activityRef.get()).execute();
 			return;
 		}
-		Beer.getDbBeers().add(beer);
 		this.beerDialog.setBeer(beer);// Update BeerDialog view
 	}
 
