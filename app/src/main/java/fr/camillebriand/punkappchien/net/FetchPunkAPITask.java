@@ -21,8 +21,6 @@ import fr.camillebriand.punkappchien.BeerDialog;
 import fr.camillebriand.punkappchien.model.Beer;
 import fr.camillebriand.punkappchien.util.StreamsUtil;
 
-import static fr.camillebriand.punkappchien.model.Beer.dbBeers;
-
 public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 	private static final String BASE_API_PATH = "https://api.punkapi.com/v2/beers";
 	
@@ -99,7 +97,6 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 				
 				try {
 					beer = new Beer(jsonApiResponse);
-					dbBeers.add(beer);
 				} catch (NullPointerException e) {  // Can only be thrown if activityRef.get() is null
 					if (this.activityRef.get() != null) {
 						beer = new Beer(jsonApiResponse);
@@ -140,12 +137,12 @@ public class FetchPunkAPITask extends AsyncTask<Void, Void, Beer> {
 			return;
 		}
 		
-		if (beer == null) {  // If no beer returned, try again with no parameters
+		if (beer == null) {// If no beer returned, try again with no parameters
 			new FetchPunkAPITask(this.activityRef.get()).execute();
 			return;
 		}
-		
-		this.beerDialog.setBeer(beer);  // Update BeerDialog view
+		Beer.getDbBeers().add(beer);
+		this.beerDialog.setBeer(beer);// Update BeerDialog view
 	}
 
 }
