@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			public void onClick(View v) {
 				Intent favorisActivity = new Intent(getApplicationContext(),FavorisActivity.class);
 				startActivity(favorisActivity);
-				finish();
 			}
 		});
 		
